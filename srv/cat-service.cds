@@ -117,7 +117,6 @@ service CatalogService {
     // Custom Function Declaration
     function getHeighestPricedProduct() returns array of ProductSrv;
 
-    //GET Utilites function
     function getUtilities() returns String;
 }
 
