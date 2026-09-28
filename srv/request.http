@@ -1,0 +1,195 @@
+###
+http://localhost:4004/odata/v4/catalog/
+
+###
+http://localhost:4004/odata/v4/catalog/EmployeeSrv
+
+### 
+POST http://localhost:4004/odata/v4/catalog/createEmployee
+Content-Type: application/json
+
+{
+    "Currency_code": "INR",
+    "accountNumber": "ACC18881",
+    "bankId": "B001",
+    "bankName": "HDFC Bank",
+    "email": "rahul.sharma@example.com",
+    "gender": "M",
+    "language": "EN",
+    "loginName": "rahul.sharma",
+    "nameFirst": "Rahul",
+    "nameInitials": "RS",
+    "nameLast": "Sharma",
+    "nameMiddle": "Kumar",
+    "phoneNumber": "9876543210",
+    "salaryAmount": 75000.00
+}
+
+###
+http://localhost:4004/odata/v4/catalog/AddressSrv
+
+###
+POST http://localhost:4004/odata/v4/catalog/createAddressSrv
+Content-Type: application/json
+
+{
+  "ADDRESS_TYPE": "Office",
+        "BUILDING": "Building B",
+        "CITY": "Chennai",
+        "COUNTRY": "china",
+        "LATITUDE": "13.060400",
+        "LONGITUDE": "80.249600",
+        "POSTAL_CODE": "600002",
+        "STREET": "Anna Salai",
+        "VAL_END": "2026-12-31",
+        "VAL_START": "2026-01-01"
+}
+
+### 
+POST http://localhost:4004/odata/v4/catalog/updateEmployee
+Content-Type: application/json
+
+{
+      "ID": "1",
+      "salaryAmount": 1000000,
+      "Currency_code": "INR"
+}
+
+###
+POST http://localhost:4004/odata/v4/catalog/updateAddress
+Content-Type: application/json
+
+{
+  "NODE_KEY": "32095c95-2831-4015-ae84-2b872d08536a",
+  "CITY": "Nashik"
+}
+
+###
+http://localhost:4004/odata/v4/catalog/ProductSrv
+
+###
+POST http://localhost:4004/odata/v4/catalog/createProduct
+Content-Type: application/json
+
+{
+    "PRODUCT_ID": "PROD001",
+    "TYPE_CODE": "PR",
+    "CATEGORY": "Electronics",
+    "DESCRIPTION": "Wireless Bluetooth Headphones",
+    "TAX_TARIF_CODE": 18,
+    "MEASURE_UNIT": "PC",
+    "WEIGHT_MEASURE": 1.25,
+    "WEIGHT_UNIT": "KG",
+    "PRICE": 4999.00,
+    "CURRENCY_CODE": "INR",
+    "WIDTH": 20.50,
+    "DEPTH": 10.25,
+    "HEIGHT": 15.75,
+    "DIM_UNIT": "CM"
+}
+
+###
+POST http://localhost:4004/odata/v4/catalog/updateProductPrice
+Content-Type: application/json
+
+{
+  "NODE_KEY": "550e8400-e29b-41d4-a716-446655440001",
+  "PRICE": 500000
+}
+
+###
+POST http://localhost:4004/odata/v4/catalog/deleteEmployee
+Content-Type: application/json
+
+{
+  "ID" : "1"
+}
+
+------------------------------------------------------------------------------------------------
+
+
+// to get the $count of product
+###
+http://localhost:4004/odata/v4/catalog/ProductSrv/$count
+
+
+// to get the top 10 product count (query condition that's why ? or else /)
+###
+http://localhost:4004/odata/v4/catalog/ProductSrv?$top=10
+
+
+###
+http://localhost:4004/odata/v4/catalog/ProductSrv?$top=10&$skip=10
+
+
+###
+http://localhost:4004/odata/v4/catalog/ProductSrv?$filter=CATEGORY eq 'Notebooks'&DIM_UNIT eq 'CM'
+
+
+###
+GET http://localhost:4004/odata/v4/catalog/getHighestSalariedEmployees()
+
+
+###
+GET http://localhost:4004/odata/v4/catalog/getHeighestPricedProduct()
+
+###
+POST http://localhost:4004/odata/v4/catalog/EmployeeSrv
+Content-Type: application/json
+
+{
+    "Currency_code": "USD",
+    "ID": "2a5776ec-e711-4c11-a92a-2da5b46c11b8",
+    "accountNumber": null,
+    "bankId": null,
+    "bankName": null,
+    "email": null,
+    "gender": "M",
+    "language": "E",
+    "loginName": "RAMAM",
+    "nameFirst": "Rama",
+    "nameInitials": null,
+    "nameLast": "Murthy",
+    "nameMiddle": null,
+    "phoneNumber": "(+1) 9898989898",
+    "salaryAmount": "45000.00"
+}
+
+###
+http://localhost:4004/odata/v4/catalog/PurchaseOrderSrv
+
+
+###
+POST http://localhost:4004/odata/v4/catalog/PurchaseOrderSrv/74867AD200E41EDBA5D8B06885B08052/discountPrice
+Content-Type: application/json
+
+{}
+
+###
+http://localhost:4004/odata/v4/catalog/PurchaseOrderSrv/74867AD200E41EDBA5D8B06885B08052/largestOrder()
+
+
+###
+http://localhost:4004/odata/v4/catalog/ProductSrv
+
+###
+POST http://localhost:4004/odata/v4/catalog/ProductSrv/74867AD200E41EDBA5D8B06B26EB4052/increasePrice
+Content-Type: application/json
+
+{}
+
+###
+GET http://localhost:4004/odata/v4/catalog/ProductSrv/550e8400-e29b-41d4-a716-446655440001/top_20_product()
+
+
+###
+POST http://localhost:4004/odata/v4/catalog/EmployeeSrv/02BD2137-0890-1EEA-A6C2-BB55C19787FB/increaseSalary
+Content-Type: application/json
+
+{}
+
+###
+GET http://localhost:4004/odata/v4/catalog/EmployeeSrv/02BD2137-0890-1EEA-A6C2-BB55C19787FB/Top20PaidEmployee()
+
+###
+GET  http://localhost:4004/odata/v4/catalog/getUtilities()

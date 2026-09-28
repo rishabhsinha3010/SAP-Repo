@@ -1,0 +1,16 @@
+empId,empName,salary,dept,currency,city,country,class_Id
+1,Rahul Sharma,75000,Engineering,INR,Bangalore,India,1
+2,Priya Verma,68000,Human Resources,INR,Chennai,India,3
+3,Amit Gupta,82000,Finance,INR,Mumbai,India,2
+4,Neha Singh,71000,Sales,INR,Delhi,India,4
+5,Vikram Patel,90000,Engineering,USD,New York,USA,1
+6,Anjali Nair,65000,Human Resources,INR,Kochi,India,3
+7,Rohan Mehta,78000,Sales,AED,Dubai,UAE,4
+8,Sneha Rao,85000,Engineering,EUR,Berlin,Germany,1
+9,Karan Joshi,72000,Operations,INR,Pune,India,5
+10,Meera Kumar,69000,Finance,GBP,London,UK,2
+11,Arjun Reddy,81000,Engineering,INR,Hyderabad,India,1
+12,Kavya Iyer,76000,Operations,INR,Pune,India,5
+13,Nitin Kapoor,88000,Finance,USD,Chicago,USA,2
+14,Pooja Nair,67000,Human Resources,INR,Chennai,India,3
+15,Sachin Yadav,79000,Sales,INR,Delhi,India,4

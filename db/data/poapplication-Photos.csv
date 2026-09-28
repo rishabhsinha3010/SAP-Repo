@@ -1,0 +1,9 @@
+Photo_ID,Album_Alb_ID,Location_Location_ID,Member_Member_ID,Title,Description,Privacy,UploadDate,View,ImagePath
+1,1,1,1,Sunrise at Nandi Hills,Morning sunrise captured from Nandi Hills,Public,2026-01-10,540,/images/sunrise.jpg
+2,2,2,2,Mumbai Skyline,Evening view of the Mumbai skyline,Public,2026-02-14,720,/images/mumbai.jpg
+3,3,4,3,Goa Beach,Beautiful view of the beach in Goa,Public,2026-03-05,890,/images/goa.jpg
+4,4,3,4,Indian Thali,Traditional Indian food platter,Private,2026-04-18,430,/images/thali.jpg
+5,5,5,5,Jaipur Festival,Colorful festival celebration in Jaipur,Public,2026-05-22,650,/images/festival.jpg
+6,1,4,2,Beach Sunset,Sunset captured near the sea,Public,2026-06-12,810,/images/sunset.jpg
+7,2,1,3,Bangalore Streets,Busy streets of Bangalore,Public,2026-07-08,510,/images/blrstreet.jpg
+8,3,5,1,Jaipur Palace,Historic palace architecture in Jaipur,Public,2026-08-16,940,/images/palace.jpg

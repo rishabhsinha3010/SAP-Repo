@@ -1,0 +1,11 @@
+bookId,parent_studentId,bookName,issueDate,returnDate,AuthorName
+101,S001,Java Programming,2026-01-10,2026-01-24,Herbert Schildt
+102,S001,Database Systems,2026-02-05,2026-02-19,Raghu Ramakrishnan
+103,S002,Data Structures,2026-02-12,2026-02-26,Seymour Lipschutz
+104,S003,Python Basics,2026-03-01,2026-03-15,Eric Matthes
+105,S003,Operating Systems,2026-03-10,2026-03-24,Abraham Silberschatz
+106,S004,Computer Networks,2026-03-15,2026-03-29,Andrew Tanenbaum
+107,S005,Clean Code,2026-04-01,2026-04-15,Robert C. Martin
+108,S006,Software Engineering,2026-04-05,2026-04-19,Ian Sommerville
+109,S007,Algorithms,2026-04-12,2026-04-26,Thomas H. Cormen
+110,S008,Machine Learning Basics,2026-04-20,2026-05-04,Aurélien Géron

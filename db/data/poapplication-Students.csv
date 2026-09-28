@@ -1,0 +1,11 @@
+studentId,studentName,fatherName,motherName,contactNo,city,class_classId
+001,Rahul Sharma,Amit Sharma,Sunita Sharma,987654321,Bangalore,001
+002,Priya Verma,Rakesh Verma,Kavita Verma,987654321,Chennai,002
+003,Arjun Singh,Manoj Singh,Neha Singh,987654321,Delhi,001
+004,Ananya Gupta,Sanjay Gupta,Pooja Gupta,987654321,Mumbai,003
+005,Vikram Patel,Rajesh Patel,Meena Patel,987654321,H
+006,Sneha Reddy,Murali Reddy,Latha Reddy,987654321,Pune,001
+007,Karan Mehta,Deepak Mehta,Shalini Mehta,987654321,Kolkata,003
+008,Divya Nair,Suresh Nair,Geetha Nair,987654321,Kochi,002
+009,Rohit Jain,Anil Jain,Rekha Jain,987654321,Jaipur,001
+010,Aisha Khan,Imran Khan,Nazia Khan,987654321,Lucknow,003
