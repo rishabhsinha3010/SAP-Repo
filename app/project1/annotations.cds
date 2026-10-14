@@ -66,60 +66,139 @@ annotate service.PurchaseOrderSrv with @(
         ImageUrl      : 'https://images.squarespace-cdn.com/content/v1/65a5d81bca27523f618feccf/68d9a6e3-ae27-4f3e-8c5e-f306ac36b8a3/Capgemini.png'
     },
 
-    // 
-    
-    UI.HeaderFacets : [
-    {
+    //
+
+    UI.HeaderFacets          : [{
         $Type : 'UI.CollectionFacet',
         Label : 'Business Partner Details',
-        Facets : [
+        Facets: [
             {
                 $Type : 'UI.ReferenceFacet',
                 Label : 'General Information',
-                Target : '@UI.FieldGroup#BPInfo'
+                Target: '@UI.FieldGroup#BPInfo'
             },
             {
                 $Type : 'UI.ReferenceFacet',
                 Label : 'Communication Information',
-                Target : '@UI.FieldGroup#BPCommInfo'
+                Target: '@UI.FieldGroup#BPCommInfo'
             }
-        ]
-    }
-],
+        ],
 
-UI.FieldGroup #BPInfo : {
-    Data : [
-        {
-            $Type : 'UI.DataField',
-            Value : BP_ID
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : COMPANY_NAME
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : BP_ROLE
-        }
-    ]
-},
+    }],
 
-UI.FieldGroup #BPCommInfo : {
-    Data : [
+    UI.FieldGroup #BPInfo    : {Data: [
         {
-            $Type : 'UI.DataField',
-            Value : EMAIL
+            $Type: 'UI.DataField',
+            Value: BP_ID
         },
         {
-            $Type : 'UI.DataField',
-            Value : MOBILE
+            $Type: 'UI.DataField',
+            Value: COMPANY_NAME
         },
         {
-            $Type : 'UI.DataField',
-            Value : FAX
+            $Type: 'UI.DataField',
+            Value: BP_ROLE
         }
-    ]
-},
+    ]},
+
+    UI.FieldGroup #BPCommInfo: {Data: [
+        {
+            $Type: 'UI.DataField',
+            Value: EMAIL
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: MOBILE
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: FAX
+        }
+    ]},
+
+    // inline facets for address information
+    UI.Facets                : [
+        {
+            $Type : 'UI.CollectionFacet',
+            Label : 'Other details',
+            Facets: [
+                {
+                    $Type : 'UI.ReferenceFacet',
+                    Label : 'Amount Information',
+                    Target: '@UI.FieldGroup#BPAmtInfo'
+                },
+                {
+                    $Type : 'UI.ReferenceFacet',
+                    Label : 'Address Information',
+                    Target: '@UI.FieldGroup#BPAddrInfo'
+                }
+            ]
+        },
+        {
+            $Type : 'UI.ReferenceFacet',
+            Label : 'Purchase Item Details',
+            Target: 'Items/@UI.LineItem'
+        }
+    ],
+
+    // inline facets for address information
+    // UI.Facets  : [
+    //             {
+    //                 $Type : 'UI.ReferenceFacet',
+    //                 Label : 'Amount Information',
+    //                 Target : '@UI.FieldGroup#BPAmtInfo'
+    //             },
+    //             {
+    //                 $Type : 'UI.ReferenceFacet',
+    //                 Label : 'Address Information',
+    //                 Target : '@UI.FieldGroup#BPAddrInfo'
+    //             },
+    // ],
+
+
+    UI.FieldGroup #BPAmtInfo : {Data: [
+        {
+            $Type: 'UI.DataField',
+            Value: GROSS_AMOUNT
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: NET_AMOUNT
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: TAX_AMOUNT
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: CURRENCY_code
+        }
+    ]},
+
+
+    UI.FieldGroup #BPAddrInfo: {Data: [
+        {
+            $Type: 'UI.DataField',
+            Value: STREET
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: BUILDING
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: CITY
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: POSTAL_CODE
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: COUNTRY
+        }
+    ]},
+
 );
 
 annotate service.EmployeeSrv with {
@@ -135,3 +214,33 @@ annotate service.EmployeeSrv with {
     loginName     @title: '{i18n>LOGIN_NAME}';
     CURRENCY_code @title: '{i18n>CURRENCY}';
 };
+
+annotate service.PurchaseItemSrv with @(
+    UI.SelectionFields: [
+        PO_ITEM_POS,
+        PRODUCT_NODE_KEY
+    ],
+
+    UI.LineItem       : [
+        {
+            $Type: 'UI.DataField',
+            Value: PO_ITEM_POS
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: PRODUCT_NODE_KEY
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: GROSS_AMOUNT
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: NET_AMOUNT
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: TAX_AMOUNT
+        }
+    ]
+);
