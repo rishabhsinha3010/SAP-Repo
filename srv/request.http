@@ -193,3 +193,9 @@ GET http://localhost:4004/odata/v4/catalog/EmployeeSrv/02BD2137-0890-1EEA-A6C2-B
 
 ###
 GET  http://localhost:4004/odata/v4/catalog/getUtilities()
+
+###
+GET http://localhost:4004/odata/v4/catalog/PurchaseOrderSrv?$expand=PARTNER($expand=AD)
+
+###
+GET http://localhost:4004/odata/v4/catalog/PurchaseOrderSrv?$expand=PARTNER($expand=AD($select=COUNTRY))
