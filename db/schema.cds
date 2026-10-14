@@ -105,3 +105,8 @@ entity Countries {
     code        : String(2);
     description : String(200);
 }
+
+entity BPRoleFltr {
+    code : Integer @(title: '{i18n>BP_ROLE}');
+    description : String(80) @(title: '{i18n>BP_ROLE}');
+}

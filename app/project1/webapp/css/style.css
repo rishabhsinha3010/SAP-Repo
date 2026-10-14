@@ -24,3 +24,18 @@
     padding-left: 1rem !important;
     padding-right: 1rem !important;
 }
+
+.sapFAvatarSquare.sapFAvatarL .sapFAvatarBadgeIconActiveArea {
+    width: calc(100% + 0.1875rem);
+    height: calc(100% + 0.1875rem);
+    bottom: -80%;
+    right: -0.1875rem;
+}
+
+.sapUiFormCLElement span {
+    font-weight: bold !important;
+}
+
+#project1--PurchaseOrderSrvObjectPage--fe--FormContainer--FieldGroup--BPAmtInfo--FormElement--DataField--CURRENCY_code--Field-display {
+    font-style: italic !important;
+}

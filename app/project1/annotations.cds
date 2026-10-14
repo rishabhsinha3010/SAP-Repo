@@ -64,9 +64,8 @@ annotate service.PurchaseOrderSrv with @(
             Value: COMPANY_NAME
         },
         ImageUrl      : 'https://images.squarespace-cdn.com/content/v1/65a5d81bca27523f618feccf/68d9a6e3-ae27-4f3e-8c5e-f306ac36b8a3/Capgemini.png'
-    },
 
-    //
+    },
 
     UI.HeaderFacets          : [{
         $Type : 'UI.CollectionFacet',
@@ -85,6 +84,30 @@ annotate service.PurchaseOrderSrv with @(
         ],
 
     }],
+
+    UI.Chart #AmountChart    : {
+        Title              : 'Gross vs Net Amount',
+        ChartType          : #Column,
+        Dimensions         : [PO_ID],
+        DimensionAttributes: [{
+            Dimension: PO_ID,
+            Role     : #Category
+        }],
+        Measures           : [
+            PO_Item_POS,
+            GROSS_AMOUNT
+        ],
+        MeasureAttributes  : [
+            {
+                Measure: PO_Item_POS,
+                Role   : #Axis1
+            },
+            {
+                Measure: GROSS_AMOUNT,
+                Role   : #Axis2
+            }
+        ]
+    },
 
     UI.FieldGroup #BPInfo    : {Data: [
         {
@@ -138,6 +161,11 @@ annotate service.PurchaseOrderSrv with @(
             $Type : 'UI.ReferenceFacet',
             Label : 'Purchase Item Details',
             Target: 'Items/@UI.LineItem'
+        },
+        {
+            $Type : 'UI.ReferenceFacet',
+            Label : 'Amount Chart',
+            Target: '@UI.Chart#AmountChart'
         }
     ],
 
@@ -218,7 +246,7 @@ annotate service.EmployeeSrv with {
 annotate service.PurchaseItemSrv with @(
     UI.SelectionFields: [
         PO_ITEM_POS,
-        PRODUCT_NODE_KEY
+        PRODUCT.DESCRIPTION
     ],
 
     UI.LineItem       : [
@@ -242,5 +270,93 @@ annotate service.PurchaseItemSrv with @(
             $Type: 'UI.DataField',
             Value: TAX_AMOUNT
         }
-    ]
+    ],
+
+    UI.HeaderInfo     : {
+        TypeName      : 'Purchase Item',
+        TypeNamePlural: 'Purchase Items',
+        Title         : {
+            $Type: 'UI.DataField',
+            Value: PO_ITEM_POS
+        },
+        Description   : {
+            $Type: 'UI.DataField',
+            Value: PRODUCT.DESCRIPTION
+        },
+        ImageUrl      : 'https://images.squarespace-cdn.com/content/v1/65a5d81bca27523f618feccf/68d9a6e3-ae27-4f3e-8c5e-f306ac36b8a3/Capgemini.png'
+    },
+    
+    UI.Facets :[
+        {
+           $Type : 'UI.CollectionFacet',
+           Label : 'Product Details',
+              Facets: [
+                {
+                    $Type : 'UI.ReferenceFacet',
+                    Label : 'Product Information',
+                    Target: '@UI.FieldGroup#ProductInfo'
+                },
+                {
+                    $Type : 'UI.ReferenceFacet',
+                    Label : 'Product Supplier Information',
+                    Target: '@UI.FieldGroup#ProductItemInfo'
+                }
+              ]
+        },
+
+    ],
+
+    UI.FieldGroup #ProductInfo : {Data: [
+        {
+            $Type: 'UI.DataField',
+            Value: PRODUCT.DESCRIPTION
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: PRODUCT.DEPTH
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: PRODUCT.WIDTH
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: PRODUCT.HEIGHT
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: PRODUCT.PRICE
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: PRODUCT.CATEGORY
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: PRODUCT.MEASURE_UNIT
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: PRODUCT.CURRENCY_CODE
+        }
+    ]},
+
+    UI.FieldGroup #ProductItemInfo : {Data: [
+        {
+            $Type: 'UI.DataField',
+            Value: CURRENCY_code
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: GROSS_AMOUNT
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: NET_AMOUNT
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: TAX_AMOUNT
+        }
+    ]},
 );
