@@ -1,10 +1,95 @@
 using CatalogService as service from '../../srv/cat-service';
 
+annotate service.PurchaseOrderSrv with {
+
+    LSTEXT             @(Common: {
+        Text     : LSTEXT,
+        ValueList: {
+            Label          : 'Life Cycle Status',
+            CollectionPath : 'PurchaseOrderSrv',
+            SearchSupported: true,
+            Parameters     : [{
+                $Type            : 'Common.ValueListParameterOut',
+                LocalDataProperty: 'LSTEXT',
+                ValueListProperty: 'LSTEXT'
+            }]
+        }
+    });
+
+    OSTEXT             @(Common: {
+        Text     : OSTEXT,
+        ValueList: {
+            Label          : 'Overall Status',
+            CollectionPath : 'PurchaseOrderSrv',
+            SearchSupported: true,
+            Parameters     : [{
+                $Type            : 'Common.ValueListParameterOut',
+                LocalDataProperty: 'OSTEXT',
+                ValueListProperty: 'OSTEXT'
+            }]
+        }
+    });
+
+    PO_ID              @(Common: {
+        Text     : PO_ID,
+
+        ValueList: {
+            Label          : 'Purchase Order ID',
+            CollectionPath : 'PurchaseOrderSrv',
+            SearchSupported: true,
+
+            Parameters     : [{
+                $Type            : 'Common.ValueListParameterOut',
+                LocalDataProperty: 'PO_ID',
+                ValueListProperty: 'PO_ID'
+            }]
+        }
+    });
+
+    partnerCountryDesc @(Common: {
+        Text     : partnerCountryDesc,
+
+        ValueList: {
+            Label          : 'Country',
+            CollectionPath : 'CountriesSrv',
+            SearchSupported: true,
+
+            Parameters     : [{
+                $Type            : 'Common.ValueListParameterOut',
+                LocalDataProperty: 'partnerCountryDesc',
+                ValueListProperty: 'description'
+            }]
+        }
+    });
+
+    COMPANY_NAME       @(Common: {
+        Text     : COMPANY_NAME,
+        ValueList: {
+            Label          : 'Company Name',
+            CollectionPath : 'BusinessPatnerSrv',
+            SearchSupported: true,
+            Parameters     : [
+                {
+                    $Type            : 'Common.ValueListParameterOut',
+                    LocalDataProperty: 'BP_ID',
+                    ValueListProperty: 'BP_ID'
+                },
+                {
+                    $Type            : 'Common.ValueListParameterOut',
+                    LocalDataProperty: 'COMPANY_NAME',
+                    ValueListProperty: 'COMPANY_NAME'
+                }
+            ]
+        }
+    })
+};
+
 annotate service.PurchaseOrderSrv with @(
     UI.SelectionFields       : [
         PO_ID,
         COMPANY_NAME,
-        GROSS_AMOUNT,
+        LSTEXT,
+        OSTEXT,
         partnerCountryDesc
     ],
 
@@ -36,6 +121,10 @@ annotate service.PurchaseOrderSrv with @(
         {
             $Type: 'UI.DataField',
             Value: CURRENCY_code
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: CITY
         },
         {
             $Type      : 'UI.DataField',
@@ -226,7 +315,6 @@ annotate service.PurchaseOrderSrv with @(
             Value: COUNTRY
         }
     ]},
-
 );
 
 annotate service.EmployeeSrv with {
@@ -244,12 +332,12 @@ annotate service.EmployeeSrv with {
 };
 
 annotate service.PurchaseItemSrv with @(
-    UI.SelectionFields: [
+    UI.SelectionFields            : [
         PO_ITEM_POS,
         PRODUCT.DESCRIPTION
     ],
 
-    UI.LineItem       : [
+    UI.LineItem                   : [
         {
             $Type: 'UI.DataField',
             Value: PO_ITEM_POS
@@ -272,7 +360,7 @@ annotate service.PurchaseItemSrv with @(
         }
     ],
 
-    UI.HeaderInfo     : {
+    UI.HeaderInfo                 : {
         TypeName      : 'Purchase Item',
         TypeNamePlural: 'Purchase Items',
         Title         : {
@@ -285,28 +373,27 @@ annotate service.PurchaseItemSrv with @(
         },
         ImageUrl      : 'https://images.squarespace-cdn.com/content/v1/65a5d81bca27523f618feccf/68d9a6e3-ae27-4f3e-8c5e-f306ac36b8a3/Capgemini.png'
     },
-    
-    UI.Facets :[
-        {
-           $Type : 'UI.CollectionFacet',
-           Label : 'Product Details',
-              Facets: [
-                {
-                    $Type : 'UI.ReferenceFacet',
-                    Label : 'Product Information',
-                    Target: '@UI.FieldGroup#ProductInfo'
-                },
-                {
-                    $Type : 'UI.ReferenceFacet',
-                    Label : 'Product Supplier Information',
-                    Target: '@UI.FieldGroup#ProductItemInfo'
-                }
-              ]
-        },
+
+    UI.Facets                     : [{
+        $Type : 'UI.CollectionFacet',
+        Label : 'Product Details',
+        Facets: [
+            {
+                $Type : 'UI.ReferenceFacet',
+                Label : 'Product Information',
+                Target: '@UI.FieldGroup#ProductInfo'
+            },
+            {
+                $Type : 'UI.ReferenceFacet',
+                Label : 'Product Supplier Information',
+                Target: '@UI.FieldGroup#ProductItemInfo'
+            }
+        ]
+    },
 
     ],
 
-    UI.FieldGroup #ProductInfo : {Data: [
+    UI.FieldGroup #ProductInfo    : {Data: [
         {
             $Type: 'UI.DataField',
             Value: PRODUCT.DESCRIPTION
@@ -341,7 +428,7 @@ annotate service.PurchaseItemSrv with @(
         }
     ]},
 
-    UI.FieldGroup #ProductItemInfo : {Data: [
+    UI.FieldGroup #ProductItemInfo: {Data: [
         {
             $Type: 'UI.DataField',
             Value: CURRENCY_code

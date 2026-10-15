@@ -35,7 +35,7 @@ service CatalogService {
     entity BusinessPatnerSrv as projection on database.master.BusinessPartners;
 
     entity AddressSrv        as projection on database.master.Addresses;
-
+    entity CountriesSrv as projection on database.Countries;
     // Transactional data which is in the Transaction context
 
     @Capabilities: {

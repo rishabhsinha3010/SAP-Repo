@@ -103,7 +103,7 @@ context transaction {
 
 entity Countries {
     code        : String(2);
-    description : String(200);
+    key description : String(200);
 }
 
 entity BPRoleFltr {

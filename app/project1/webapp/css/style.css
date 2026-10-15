@@ -1,41 +1,52 @@
 /* Emphasized Buttons */
-.sapMBtnInner.sapMBtnEmphasized {
-    background: #ff5722 !important;     /* Background color */
+
+/* .sapMBtnInner.sapMBtnEmphasized {
+    background: #ff5722 !important;     
     border: 2px solid #e64a19 !important;
     color: #ffffff !important;
 
-    font-size: 18px !important;         /* Text size */
+    font-size: 18px !important;        
     font-weight: bold !important;
 
-    height: 3rem !important;            /* Height */
-    min-width: 12rem !important;        /* Width */
+    height: 3rem !important;           
+    min-width: 12rem !important;        
 
     border-radius: 8px !important;
-}
+} */
 
 /* Text inside button */
-.sapMBtnEmphasized.sapMBtnInner.sapMBtnText {
+/* .sapMBtnEmphasized.sapMBtnInner.sapMBtnText {
     font-size: 18px !important;
     font-family: Arial, sans-serif !important;
-}
+} */
 
 /* Compact mode padding */
-.sapUiSizeCompact .sapMBtnInner.sapMBtnText {
+/* .sapUiSizeCompact .sapMBtnInner.sapMBtnText {
     padding-left: 1rem !important;
     padding-right: 1rem !important;
-}
+} */
 
-.sapFAvatarSquare.sapFAvatarL .sapFAvatarBadgeIconActiveArea {
+/* .sapFAvatarSquare.sapFAvatarL .sapFAvatarBadgeIconActiveArea {
     width: calc(100% + 0.1875rem);
     height: calc(100% + 0.1875rem);
     bottom: -80%;
     right: -0.1875rem;
-}
+} */
 
-.sapUiFormCLElement span {
+/* .sapUiFormCLElement span {
     font-weight: bold !important;
 }
 
 #project1--PurchaseOrderSrvObjectPage--fe--FormContainer--FieldGroup--BPAmtInfo--FormElement--DataField--CURRENCY_code--Field-display {
     font-style: italic !important;
+} */
+
+/* Hide adapt filters  */
+
+/* .sapUiMdcFilterBarAdaptFiltersButton {
+    display: none !important;
 }
+
+[id*="btnAdapt"] {
+    display: none !important;
+} 
