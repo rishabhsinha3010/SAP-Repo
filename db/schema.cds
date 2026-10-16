@@ -76,8 +76,6 @@ context master {
     
 }
 
-
-
 context transaction {
     entity PurchaseOrders : common.Amount {
         key NODE_KEY         : common.Guid                            @(title: '{i18n>NODE_KEY}');

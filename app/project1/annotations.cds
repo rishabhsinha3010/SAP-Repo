@@ -1,5 +1,8 @@
 using CatalogService as service from '../../srv/cat-service';
 
+// ---------------------------------------------------------------
+// Value helps
+// ---------------------------------------------------------------
 annotate service.PurchaseOrderSrv with {
 
     LSTEXT             @(Common: {
@@ -32,12 +35,10 @@ annotate service.PurchaseOrderSrv with {
 
     PO_ID              @(Common: {
         Text     : PO_ID,
-
         ValueList: {
             Label          : 'Purchase Order ID',
             CollectionPath : 'PurchaseOrderSrv',
             SearchSupported: true,
-
             Parameters     : [{
                 $Type            : 'Common.ValueListParameterOut',
                 LocalDataProperty: 'PO_ID',
@@ -48,12 +49,10 @@ annotate service.PurchaseOrderSrv with {
 
     partnerCountryDesc @(Common: {
         Text     : partnerCountryDesc,
-
         ValueList: {
             Label          : 'Country',
             CollectionPath : 'CountriesSrv',
             SearchSupported: true,
-
             Parameters     : [{
                 $Type            : 'Common.ValueListParameterOut',
                 LocalDataProperty: 'partnerCountryDesc',
@@ -84,6 +83,9 @@ annotate service.PurchaseOrderSrv with {
     })
 };
 
+// ---------------------------------------------------------------
+// Purchase Order: list report + object page
+// ---------------------------------------------------------------
 annotate service.PurchaseOrderSrv with @(
     UI.SelectionFields       : [
         PO_ID,
@@ -103,13 +105,7 @@ annotate service.PurchaseOrderSrv with @(
             Action: 'CatalogService.discountPrice',
             Label : 'Discount',
             Inline: true
-
         },
-        // {
-        //     $Type :'UI.DataFieldForAction',
-        //     Action: 'CatalogService.EntityContainer/createEmployee',
-        //     Label : 'Create Employee'
-        // },
         {
             $Type: 'UI.DataField',
             Value: COMPANY_NAME
@@ -126,6 +122,26 @@ annotate service.PurchaseOrderSrv with @(
             $Type: 'UI.DataField',
             Value: CITY
         },
+
+        {
+            $Type : 'UI.DataFieldForAction',
+            Action: 'CatalogService.EntityContainer/createPurchaseOrder',
+            Label : 'Create',
+            Inline: false
+        },
+        {
+            $Type : 'UI.DataFieldForAction',
+            Action: 'CatalogService.EntityContainer/updatePurchaseOrder',
+            Label : 'Update',
+            Inline: false
+        },
+        {
+            $Type : 'UI.DataFieldForAction',
+            Action: 'CatalogService.EntityContainer/deletePurchaseOrder',
+            Label : 'Delete',
+            Inline: false
+        },
+
         {
             $Type      : 'UI.DataField',
             Value      : LSTEXT,
@@ -141,6 +157,7 @@ annotate service.PurchaseOrderSrv with @(
             Value: partnerCountryDesc
         }
     ],
+
     UI.HeaderInfo            : {
         TypeName      : 'Purchase Order',
         TypeNamePlural: 'Purchase Orders',
@@ -153,7 +170,6 @@ annotate service.PurchaseOrderSrv with @(
             Value: COMPANY_NAME
         },
         ImageUrl      : 'https://images.squarespace-cdn.com/content/v1/65a5d81bca27523f618feccf/68d9a6e3-ae27-4f3e-8c5e-f306ac36b8a3/Capgemini.png'
-
     },
 
     UI.HeaderFacets          : [{
@@ -170,33 +186,8 @@ annotate service.PurchaseOrderSrv with @(
                 Label : 'Communication Information',
                 Target: '@UI.FieldGroup#BPCommInfo'
             }
-        ],
-
-    }],
-
-    UI.Chart #AmountChart    : {
-        Title              : 'Gross vs Net Amount',
-        ChartType          : #Column,
-        Dimensions         : [PO_ID],
-        DimensionAttributes: [{
-            Dimension: PO_ID,
-            Role     : #Category
-        }],
-        Measures           : [
-            PO_Item_POS,
-            GROSS_AMOUNT
-        ],
-        MeasureAttributes  : [
-            {
-                Measure: PO_Item_POS,
-                Role   : #Axis1
-            },
-            {
-                Measure: GROSS_AMOUNT,
-                Role   : #Axis2
-            }
         ]
-    },
+    }],
 
     UI.FieldGroup #BPInfo    : {Data: [
         {
@@ -228,7 +219,6 @@ annotate service.PurchaseOrderSrv with @(
         }
     ]},
 
-    // inline facets for address information
     UI.Facets                : [
         {
             $Type : 'UI.CollectionFacet',
@@ -253,25 +243,10 @@ annotate service.PurchaseOrderSrv with @(
         },
         {
             $Type : 'UI.ReferenceFacet',
-            Label : 'Amount Chart',
-            Target: '@UI.Chart#AmountChart'
+            Label : 'Item Amounts Chart',
+            Target: 'Items/@UI.Chart'
         }
     ],
-
-    // inline facets for address information
-    // UI.Facets  : [
-    //             {
-    //                 $Type : 'UI.ReferenceFacet',
-    //                 Label : 'Amount Information',
-    //                 Target : '@UI.FieldGroup#BPAmtInfo'
-    //             },
-    //             {
-    //                 $Type : 'UI.ReferenceFacet',
-    //                 Label : 'Address Information',
-    //                 Target : '@UI.FieldGroup#BPAddrInfo'
-    //             },
-    // ],
-
 
     UI.FieldGroup #BPAmtInfo : {Data: [
         {
@@ -291,7 +266,6 @@ annotate service.PurchaseOrderSrv with @(
             Value: CURRENCY_code
         }
     ]},
-
 
     UI.FieldGroup #BPAddrInfo: {Data: [
         {
@@ -317,6 +291,9 @@ annotate service.PurchaseOrderSrv with @(
     ]},
 );
 
+// ---------------------------------------------------------------
+// Employee titles
+// ---------------------------------------------------------------
 annotate service.EmployeeSrv with {
     ID            @title: '{i18n>EMPLOYEE_ID}';
     nameFirst     @title: '{i18n>FIRST_NAME}';
@@ -331,6 +308,72 @@ annotate service.EmployeeSrv with {
     CURRENCY_code @title: '{i18n>CURRENCY}';
 };
 
+// ---------------------------------------------------------------
+// Purchase Item: analytics + chart (FIX for CURRENCY_CODE error)
+// ---------------------------------------------------------------
+annotate service.PurchaseItemSrv with {
+    GROSS_AMOUNT @Analytics.Measure            : true
+                 @Aggregation.default          : #SUM
+                 @Semantics.amount.currencyCode: 'CURRENCY_code';
+    NET_AMOUNT   @Analytics.Measure            : true
+                 @Aggregation.default          : #SUM
+                 @Semantics.amount.currencyCode: 'CURRENCY_code';
+    TAX_AMOUNT   @Semantics.amount.currencyCode: 'CURRENCY_code';
+};
+
+annotate service.PurchaseItemSrv with @(
+    Aggregation.ApplySupported               : {
+        Transformations       : [
+            'aggregate',
+            'groupby',
+            'filter',
+            'identity',
+            'concat',
+            'search'
+        ],
+        GroupableProperties   : [
+            PO_ITEM_POS,
+            CURRENCY_code
+        ],
+        AggregatableProperties: [
+            {Property: GROSS_AMOUNT},
+            {Property: NET_AMOUNT}
+        ]
+    },
+    Aggregation.CustomAggregate #GROSS_AMOUNT: 'Edm.Decimal',
+    Aggregation.CustomAggregate #NET_AMOUNT  : 'Edm.Decimal',
+
+    UI.Chart                                 : {
+        Title              : 'Gross vs Net Amount per Item',
+        ChartType          : #Column,
+        Dimensions         : [PO_ITEM_POS],
+        DimensionAttributes: [{
+            $Type    : 'UI.ChartDimensionAttributeType',
+            Dimension: PO_ITEM_POS,
+            Role     : #Category
+        }],
+        Measures           : [
+            GROSS_AMOUNT,
+            NET_AMOUNT
+        ],
+        MeasureAttributes  : [
+            {
+                $Type  : 'UI.ChartMeasureAttributeType',
+                Measure: GROSS_AMOUNT,
+                Role   : #Axis1
+            },
+            {
+                $Type  : 'UI.ChartMeasureAttributeType',
+                Measure: NET_AMOUNT,
+                Role   : #Axis1
+            }
+        ]
+    }
+);
+
+// ---------------------------------------------------------------
+// Purchase Item: object page / table
+// ---------------------------------------------------------------
 annotate service.PurchaseItemSrv with @(
     UI.SelectionFields            : [
         PO_ITEM_POS,
@@ -357,7 +400,26 @@ annotate service.PurchaseItemSrv with @(
         {
             $Type: 'UI.DataField',
             Value: TAX_AMOUNT
-        }
+        },
+        {
+            $Type : 'UI.DataFieldForAction',
+            Action: 'CatalogService.EntityContainer/createItem',
+            Label : 'Create',
+            Inline: false
+        },
+        {
+            $Type : 'UI.DataFieldForAction',
+            Action: 'CatalogService.EntityContainer/updateIteam',
+            Label: 'Update',
+            Inline: false
+        },
+        {
+            $Type : 'UI.DataFieldForAction',
+            Action: 'CatalogService.EntityContainer/deleteIteam',
+            Label: 'Delete',
+            Inline: false
+        },
+
     ],
 
     UI.HeaderInfo                 : {
@@ -387,11 +449,35 @@ annotate service.PurchaseItemSrv with @(
                 $Type : 'UI.ReferenceFacet',
                 Label : 'Product Supplier Information',
                 Target: '@UI.FieldGroup#ProductItemInfo'
+            },
+            {
+                $Type : 'UI.ReferenceFacet',
+                Label : 'options',
+                Target : '@UI.FieldGroup#cruoptions'
             }
         ]
-    },
+    }],
 
-    ],
+UI.FieldGroup #cruoptions : { Data: [
+      {
+            $Type : 'UI.DataFieldForAction',
+            Action: 'CatalogService.EntityContainer/createProductDetails',
+            Label: 'create',
+            Inline: false
+     },
+     {
+            $Type : 'UI.DataFieldForAction',
+            Action: 'CatalogService.EntityContainer/',
+            Label: 'Update',
+            Inline: false
+     },
+     {
+            $Type : 'UI.DataFieldForAction',
+            Action: 'CatalogService.EntityContainer/',
+            Label: 'delete',
+            Inline: false
+     }
+]},
 
     UI.FieldGroup #ProductInfo    : {Data: [
         {
@@ -447,3 +533,5 @@ annotate service.PurchaseItemSrv with @(
         }
     ]},
 );
+
+

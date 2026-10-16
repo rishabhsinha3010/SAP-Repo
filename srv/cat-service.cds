@@ -2,6 +2,8 @@ using {poapplication.db as database} from '../db/schema';
 // using {Currency} from '@sap/cds/common';
 using {poapplication.common as common} from '../db/common';
 
+using {Currency} from '@sap/cds/common';
+
 service CatalogService {
     //Master data which is in Master Context
     // @readonly @insertonly
@@ -35,7 +37,7 @@ service CatalogService {
     entity BusinessPatnerSrv as projection on database.master.BusinessPartners;
 
     entity AddressSrv        as projection on database.master.Addresses;
-    entity CountriesSrv as projection on database.Countries;
+    entity CountriesSrv      as projection on database.Countries;
     // Transactional data which is in the Transaction context
 
     @Capabilities: {
@@ -79,7 +81,7 @@ service CatalogService {
 
                 bp.COMPANY_NAME,
                 bp.BP_ID,
-                role.description as BP_ROLE,
+                role.description    as BP_ROLE,
                 bp.MOBILE,
                 bp.FAX,
                 bp.EMAIL,
@@ -175,7 +177,7 @@ service CatalogService {
                             nameLast: common.String64       @title: '{i18n>LAST_NAME}',
                             nameMiddle: common.String64     @title: '{i18n>NAME_MIDDLE}',
                             phoneNumber: common.PhoneNumber @title: '{i18n>PHONE_NUMBER}',
-                            salaryAmount: common.AmountT    @title: '{i18n>SALARY_AMOUNT}' ) returns array of EmployeeSrv;
+                            salaryAmount: common.AmountT    @title: '{i18n>SALARY_AMOUNT}' )                                            returns array of EmployeeSrv;
 
     action   createAddressSrv(NODE_KEY: UUID,
                               ADDRESS_TYPE: common.String32,
@@ -187,14 +189,14 @@ service CatalogService {
                               POSTAL_CODE: common.String32,
                               CITY: common.String255,
                               COUNTRY: common.String255,
-                              BUILDING: common.String255)                                    returns array of AddressSrv;
+                              BUILDING: common.String255)                                                                               returns array of AddressSrv;
 
     action   updateEmployee(ID: UUID,
                             salaryAmount: common.AmountT,
-                            Currency_code: String(3))                                        returns String;
+                            Currency_code: String(3))                                                                                   returns String;
 
     action   updateAddress(NODE_KEY: UUID,
-                           CITY: common.String255, )                                         returns String;
+                           CITY: common.String255, )                                                                                    returns String;
 
     action   createProduct(NODE_KEY: common.Guid,
                            PRODUCT_ID: common.String32,
@@ -210,17 +212,63 @@ service CatalogService {
                            WIDTH: Decimal(5, 2),
                            DEPTH: Decimal(5, 2),
                            HEIGHT: Decimal(5, 2),
-                           DIM_UNIT: String(2))                                              returns array of ProductSrv;
+                           DIM_UNIT: String(2))                                                                                         returns array of ProductSrv;
+
+    action   createPurchaseOrder(NODE_KEY: common.Guid        @(title: '{i18n>NODE_KEY}'),
+                                 PO_ID: common.Guid           @(title: '{i18n>PO_ID}'),
+                                 // Managed Association
+                                 LIFECYCLE_STATUS: String(1)  @(title: '{i18n>LIFECYCLE_STATUS}'),
+                                 OVERALL_STATUS: String(1)    @(title: '{i18n>OVERALL_STATUS}'),
+                                 GROSS_AMOUNT: common.AmountT @(title: '{i18n>GROSS_AMOUNT}'),
+                                 NET_AMOUNT: common.AmountT   @(title: '{i18n>NET_AMOUNT}'),
+                                 TAX_AMOUNT: common.AmountT   @(title: '{i18n>TAX_AMOUNT}')
+    )                                                                                                                                   returns array of PurchaseOrderSrv;
+
+    action   updatePurchaseOrder(NODE_KEY: common.Guid,
+                                 LIFECYCLE_STATUS: String(1),
+                                 NET_AMOUNT: common.AmountT,
+                                 TAX_AMOUNT: common.AmountT)                                                                            returns array of String;
+
+    action   deletePurchaseOrder(NODE_KEY: common.Guid)                                                                                 returns array of String;
+
+    action   createItem(NODE_KEY: common.Guid        @(title: '{i18n>NODE_KEY}'),
+                        // Parent Purchase Order
+                        PO_ITEM_POS: Integer         @(title: '{i18n>PO_ITEM_POS}'),
+                        GROSS_AMOUNT: common.AmountT @(title: '{i18n>GROSS_AMOUNT}'),
+                        NET_AMOUNT: common.AmountT   @(title: '{i18n>NET_AMOUNT}'),
+                        TAX_AMOUNT: common.AmountT   @(title: '{i18n>TAX_AMOUNT}')
+    )                                                                                                                                   returns array of PurchaseItemSrv;
+
+    action   updateIteam(NODE_KEY: common.Guid @(title: '{i18n>NODE_KEY}'), NET_AMOUNT: common.AmountT @(title: '{i18n>NET_AMOUNT}'), ) returns String;
+
+    action   deleteIteam(NODE_KEY: common.Guid @(title: '{i18n>NODE_KEY}') )                                                            returns String;
+
+    action   createProductDetails(NODE_KEY: common.Guid         @(title: '{i18n>NODE_KEY}'),
+                                  PRODUCT_ID: common.String32   @(title: '{i18n>PRODUCT_ID}'),
+                                  CATEGORY: common.String32     @(title: '{i18n>CATEGORY}'),
+                                  DESCRIPTION: common.String255 @(title: '{i18n>DESCRIPTION}'),
+                                  TAX_TARIF_CODE: Integer       @(title: '{i18n>TAX_TARIF_CODE}'),
+                                  MEASURE_UNIT: String(2)       @(title: '{i18n>MEASURE_UNIT}'),
+                                  WEIGHT_MEASURE: Decimal(5, 2) @(title: '{i18n>WEIGHT_MEASURE}'),
+                                  WEIGHT_UNIT: String(2)        @(title: '{i18n>WEIGHT_UNIT}'),
+                                  PRICE: Decimal(15, 2)         @(title: '{i18n>PRICE}'),
+                                  CURRENCY_CODE: String(5)      @(title: '{i18n>CURRENCY_CODE}'),
+                                  WIDTH: Decimal(5, 2)          @(title: '{i18n>WIDTH}'),
+                                  DEPTH: Decimal(5, 2)          @(title: '{i18n>DEPTH}'),
+                                  HEIGHT: Decimal(5, 2)         @(title: '{i18n>HEIGHT}'),
+                                  DIM_UNIT: String(2)           @(title: '{i18n>DIM_UNIT}',
+
+    ) )                                                                                                                                 returns array of PurchaseItemSrv;
 
     action   updateProductPrice(NODE_KEY: common.Guid,
-                                PRICE: Decimal(15, 2))                                       returns String;
+                                PRICE: Decimal(15, 2))                                                                                  returns String;
 
-    action   deleteEmployee(ID: UUID)                                                        returns String;
+    action   deleteEmployee(ID: UUID)                                                                                                   returns String;
 
-    function getHighestSalariedEmployees()                                                   returns array of EmployeeSrv;
+    function getHighestSalariedEmployees()                                                                                              returns array of EmployeeSrv;
 
     // Custom Function Declaration
-    function getHeighestPricedProduct()                                                      returns array of ProductSrv;
+    function getHeighestPricedProduct()                                                                                                 returns array of ProductSrv;
 
-    function getUtilities()                                                                  returns String;
+    function getUtilities()                                                                                                             returns String;
 }
